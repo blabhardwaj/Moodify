@@ -9,6 +9,23 @@ import time
 from ml_pipeline import MoodClassifierPipeline
 from gemini_helper import init_gemini, generate_mood_phrase
 
+# Cache the loading of the MoodClassifierPipeline to avoid reloading it multiple times
+@st.cache_resource
+def load_pipeline():
+    return MoodClassifierPipeline()
+
+# Initialize the mood classifier pipeline
+classifier = load_pipeline()
+
+# Cache the initialization of the Gemini API helper to avoid redundant API key setups
+@st.cache_resource
+def load_gemini():
+    return init_gemini(st.secrets.get("GEMINI_API_KEY", "your_gemini_key"))
+
+# Initialize the Gemini API helper
+gemini = load_gemini()
+
+
 
 # Set page config
 st.set_page_config(
@@ -43,24 +60,6 @@ st.markdown("""
 # Title and description
 st.title("🎨 Moodify My Sketch")
 st.write("Draw something that shows your mood, and we'll match a song to it!")
-
-
-# Cache the loading of the MoodClassifierPipeline to avoid reloading it multiple times
-@st.cache_resource
-def load_pipeline():
-    return MoodClassifierPipeline()
-
-# Initialize the mood classifier pipeline
-classifier = load_pipeline()
-
-# Cache the initialization of the Gemini API helper to avoid redundant API key setups
-@st.cache_resource
-def load_gemini():
-    return init_gemini(st.secrets.get("GEMINI_API_KEY", "your_gemini_key"))
-
-# Initialize the Gemini API helper
-gemini = load_gemini()
-
 
 # Initialize Spotify client
 @st.cache_resource
@@ -116,35 +115,31 @@ def classify_mood(image):
     return random.choice(moods)
 
 # Get song recommendation
-def get_song_for_mood(mood_phrase):
-    """
-    Search Spotify using the Gemini-generated mood phrase directly.
-    Return a previewable track if available.
-    """
-    # Clean up overly poetic lines (just in case)
-    search_query = mood_phrase.strip().lower()
+def get_song_for_mood(mood):
+    mood_to_search = {
+        "happy": "happy hits feel good",
+        "sad": "sad songs emotional",
+        "calm": "peaceful relaxing",
+        "angry": "intense rock metal",
+        "excited": "upbeat party dance"
+    }
     
-    try:
-        results = sp.search(q=search_query, type='track', limit=10)
-        tracks = results.get('tracks', {}).get('items', [])
-
-        # Pick the first previewable track
-        for track in tracks:
-            if track['preview_url']:
-                return {
-                    'name': track['name'],
-                    'artist': track['artists'][0]['name'],
-                    'album': track['album']['name'],
-                    'image_url': track['album']['images'][0]['url'] if track['album']['images'] else None,
-                    'preview_url': track['preview_url'],
-                    'external_url': track['external_urls']['spotify'],
-                    'uri': track['uri']  # Needed for embedded player
-                }
-    except Exception as e:
-        print(f"Spotify error: {e}")
-
+    search_query = mood_to_search.get(mood.lower(), "popular")
+    results = sp.search(q=search_query, type='track', limit=5)
+    
+    if results['tracks']['items']:
+        # Pick a random track from results
+        import random
+        track = random.choice(results['tracks']['items'])
+        return {
+            'name': track['name'],
+            'artist': track['artists'][0]['name'],
+            'album': track['album']['name'],
+            'image_url': track['album']['images'][0]['url'] if track['album']['images'] else None,
+            'preview_url': track['preview_url'],
+            'external_url': track['external_urls']['spotify']
+        }
     return None
-
 
 # Process button
 # Process button
