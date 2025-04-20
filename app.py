@@ -8,13 +8,15 @@ import uuid
 import time
 from ml_pipeline import MoodClassifierPipeline
 from gemini_helper import init_gemini, generate_mood_phrase
-
-
+import streamlit.components.v1 as components
+from colorthief import ColorThief
+import requests
+from io import BytesIO
 # Set page config
 st.set_page_config(
     page_title="Moodify My Sketch",
     page_icon="🎨",
-    layout="centered"
+    layout="wide"
 )
 
 # Custom CSS
@@ -44,41 +46,38 @@ st.markdown("""
 st.title("🎨 Moodify My Sketch")
 st.write("Draw something that shows your mood, and we'll match a song to it!")
 
-
-# Cache the loading of the MoodClassifierPipeline to avoid reloading it multiple times
 @st.cache_resource
 def load_pipeline():
     return MoodClassifierPipeline()
 
-# Initialize the mood classifier pipeline
 classifier = load_pipeline()
 
-# Cache the initialization of the Gemini API helper to avoid redundant API key setups
 @st.cache_resource
 def load_gemini():
-    return init_gemini(st.secrets.get("GEMINI_API_KEY", "your_gemini_key"))
+    return init_gemini(st.secrets.get("GEMINI_API_KEY"))
 
-# Initialize the Gemini API helper
 gemini = load_gemini()
 
-
-# Initialize Spotify client
 @st.cache_resource
 def get_spotify_client():
-    client_id = st.secrets.get("SPOTIFY_CLIENT_ID", "your_client_id")
-    client_secret = st.secrets.get("SPOTIFY_CLIENT_SECRET", "your_client_secret")
+    try:
+        client_id = st.secrets["SPOTIFY_CLIENT_ID"]
+        client_secret = st.secrets["SPOTIFY_CLIENT_SECRET"]
+    except KeyError:
+        raise RuntimeError("Spotify credentials missing in Streamlit secrets.")
+
     client_credentials_manager = SpotifyClientCredentials(
         client_id=client_id, client_secret=client_secret
     )
     return spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
+
 sp = get_spotify_client()
 
-# Drawing canvas setup
+# Drawing canvas
 col1, col2 = st.columns([3, 1])
 
 with col1:
-    # Canvas for drawing
     stroke_color = st.color_picker("Stroke color", "#000000")
     stroke_width = st.slider("Stroke width", 1, 25, 3)
     
@@ -99,108 +98,112 @@ with col2:
     st.write("1. Draw your mood")
     st.write("2. Click 'Analyze Mood'")
     st.write("3. Get a matching song!")
-    
-    # Mood mapping
     st.write("### Mood Options")
-    st.write("- Happy 😊")
-    st.write("- Sad 😢")
-    st.write("- Calm 😌")
-    st.write("- Angry 😠")
-    st.write("- Excited 🤩")
+    st.write("- Happy 😊\n- Sad 😢\n- Calm 😌\n- Angry 😠\n- Excited 🤩")
 
-#checks if the canvas is blank
 def is_canvas_blank(image_array):
-    # Check if all pixels are white (255, 255, 255)
     if image_array is None:
         return True
-    image_uint8 = (image_array[:, :, :3]).astype(np.uint8)  # Remove alpha if present
-    return np.all(image_uint8 == 255)  # All white
+    image_uint8 = (image_array[:, :, :3]).astype(np.uint8)
+    return np.all(image_uint8 == 255)
 
+import time
 
-# Mock mood classifier function (replace with your actual model)
-def classify_mood(image):
-    # This is where you'd implement your actual ML model
-    # For demo purposes, we'll randomly select a mood
-    moods = ["happy", "sad", "calm", "angry", "excited"]
-    import random
-    return random.choice(moods)
+def get_song_for_mood(search_term):
+    retries = 3
+    delay = 1.5
+    search_query = search_term.strip().lower()
 
-# Get song recommendation
-def get_song_for_mood(mood_phrase):
-    """
-    Search Spotify using the Gemini-generated mood phrase directly.
-    Return a previewable track if available.
-    """
-    # Clean up overly poetic lines (just in case)
-    search_query = mood_phrase.strip().lower()
-    
-    try:
-        results = sp.search(q=search_query, type='track', limit=10)
-        tracks = results.get('tracks', {}).get('items', [])
-
-        # Pick the first previewable track
-        for track in tracks:
-            if track['preview_url']:
+    for attempt in range(retries):
+        try:
+            results = sp.search(q=search_query, type='track', limit=10)
+            tracks = results.get('tracks', {}).get('items', [])
+            # Filter tracks by popularity (e.g., >= 50)
+            popular_tracks = [track for track in tracks if track.get('popularity', 0) >= 50]
+            if popular_tracks:
+                track = popular_tracks[0]
                 return {
                     'name': track['name'],
                     'artist': track['artists'][0]['name'],
                     'album': track['album']['name'],
                     'image_url': track['album']['images'][0]['url'] if track['album']['images'] else None,
-                    'preview_url': track['preview_url'],
                     'external_url': track['external_urls']['spotify'],
-                    'uri': track['uri']  # Needed for embedded player
+                    'uri': track['uri'],
+                    'popularity': track.get('popularity', 0)
                 }
-    except Exception as e:
-        print(f"Spotify error: {e}")
+            print(f"Attempt {attempt + 1} found no popular tracks. Retrying...")
+            time.sleep(delay)
+        except Exception as e:
+            print(f"Attempt {attempt + 1} failed: {e}")
+            time.sleep(delay)
 
+    print("Spotify search failed after retries.")
     return None
 
+def get_dominant_color(image_url):
+    response = requests.get(image_url)
+    color_thief = ColorThief(BytesIO(response.content))
+    dominant_color = color_thief.get_color(quality=1)
+    # Convert (R, G, B) to hex
+    return '#%02x%02x%02x' % dominant_color
 
-# Process button
-# Process button
+def get_text_color(bg_hex):
+    # Convert hex to RGB
+    bg_hex = bg_hex.lstrip('#')
+    r, g, b = tuple(int(bg_hex[i:i+2], 16) for i in (0, 2, 4))
+    # Calculate luminance
+    luminance = (0.299*r + 0.587*g + 0.114*b)/255
+    return "#000" if luminance > 0.6 else "#fff"
+
 if st.button("✨ Analyze Mood"):
     if canvas_result.image_data is None or is_canvas_blank(canvas_result.image_data):
         st.error("Please draw something first!")
-
-    else:    
+    else:
         with st.spinner("Analyzing your sketch..."):
             img = Image.fromarray((canvas_result.image_data).astype("uint8"))
 
             ml_mood = classifier.classify_mood(canvas_result.image_data)
-
             display_phrase, spotify_query = generate_mood_phrase(gemini, img, ml_mood)
-
-            st.code(f"ML Mood: {ml_mood}\nSpotify Search Query: {spotify_query}", language='text')
+            
+            #st.code(f"ML Mood: {ml_mood}\nSpotify Search Query: {spotify_query}\nDisplay Phrase: {display_phrase}", language='text')
 
             time.sleep(1)
-            # Get song based on mood phrase
-            song = get_song_for_mood(spotify_query)
             
+            song = get_song_for_mood(f"{spotify_query}")
+
             if not song:
-                song = get_song_for_mood(f"{ml_mood} mood music")
+                song = get_song_for_mood(f"{display_phrase}")
 
+            if not song:
+                song = get_song_for_mood(f"{ml_mood} music")
+            
 
-        
-        st.success(f"🎨 Your sketch expresses a **{display_phrase}** vibe.")
-        
+        st.success(f"🖌️ Your sketch expresses a **{display_phrase}** vibe.")
+
         if song:
-            st.markdown(f"""
-            <div class="result-container">
-                <h3>🎵 Your Mood-Matched Song</h3>
-                <p><b>{song['name']}</b> by {song['artist']}</p>
-                <p>From the album: {song['album']}</p>
-            </div>
-            """, unsafe_allow_html=True)
+            st.markdown("## 🎵 A song that matches your sketch's vibe")
 
-            if song['image_url']:
-                st.image(song['image_url'], width=200)
-            if song['preview_url']:
-                st.audio(song['preview_url'])
-            st.markdown(f"""
-                        <iframe src="https://open.spotify.com/embed/track/{song['uri'].split(':')[-1]}" 
-                        width="100%" height="80" frameborder="0" 
-                        allowtransparency="true" allow="encrypted-media"></iframe>
-                        """, unsafe_allow_html=True)
+            # Card-like container with details and embed player (no image)
+            track_id = song['uri'].split(':')[-1]
+            embed_url = f"https://open.spotify.com/embed/track/{track_id}"
 
+            dominant_color = get_dominant_color(song['image_url']) if song['image_url'] else "#FFFFFF"
+            text_color = get_text_color(dominant_color)
+            secondary_text_color = "#222" if text_color == "#000" else "#e0e0e0"
+
+            st.markdown(
+                f"""
+                <div style="background-color: {dominant_color}; padding: 18px; border-radius: 12px; margin-bottom: 20px;">
+                    <h4 style="margin-bottom: 5px; color: {text_color};"> {song['name']} <span style="font-weight: normal;">by {song['artist']}</span></h4>
+                    <p style="margin-top: -10px; color: {secondary_text_color};">Album: <em>{song['album']}</em></p>
+                    <div style="position: relative; margin-top: 18px;">
+                        <div style="position: relative; z-index: 1; border-radius: 10px; overflow: hidden;">
+                            <iframe src="{embed_url}" width="100%" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                        </div>
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
         else:
-            st.error("No good song match found. Try a different sketch!.")
+            st.error("No good song match found. Try a different sketch!")
