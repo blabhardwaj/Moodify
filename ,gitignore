@@ -1,2 +1,2 @@
-.streamlit
-.png
+.streamlit/*
+!/streamlit/.keep
