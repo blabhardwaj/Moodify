@@ -5,7 +5,7 @@ from sklearn.decomposition import PCA
 from xgboost import XGBClassifier
 import joblib
 
-CSV_PATH = "mood_color_dataset.csv"
+CSV_PATH = "mood_color_dataset_extended.csv"
 PCA_MODEL_PATH = "pca_model.pkl"
 XGB_MODEL_PATH = "xgb_model.pkl"
 N_COMPONENTS = 2  # Reduce to 2D RGB space
