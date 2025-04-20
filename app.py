@@ -91,6 +91,7 @@ with col1:
         width=350,
         drawing_mode="freedraw",
         key="canvas",
+        update_streamlit=True,
     )
 
 with col2:
@@ -106,6 +107,15 @@ with col2:
     st.write("- Calm 😌")
     st.write("- Angry 😠")
     st.write("- Excited 🤩")
+
+#checks if the canvas is blank
+def is_canvas_blank(image_array):
+    # Check if all pixels are white (255, 255, 255)
+    if image_array is None:
+        return True
+    image_uint8 = (image_array[:, :, :3]).astype(np.uint8)  # Remove alpha if present
+    return np.all(image_uint8 == 255)  # All white
+
 
 # Mock mood classifier function (replace with your actual model)
 def classify_mood(image):
@@ -149,7 +159,10 @@ def get_song_for_mood(mood_phrase):
 # Process button
 # Process button
 if st.button("✨ Analyze Mood"):
-    if canvas_result.image_data is not None:
+    if canvas_result.image_data is None or is_canvas_blank(canvas_result.image_data):
+        st.error("Please draw something first!")
+
+    else:    
         with st.spinner("Analyzing your sketch..."):
             # Convert image
             img = Image.fromarray((canvas_result.image_data).astype("uint8"))
@@ -160,10 +173,17 @@ if st.button("✨ Analyze Mood"):
             # Use Gemini for refined emotional text
             mood_phrase = generate_mood_phrase(gemini, img, ml_mood)
 
+            st.code(f"ML Mood: {ml_mood}\nGemini Phrase: {mood_phrase}", language='text')
+
+            search_term = mood_phrase.split(",")[0].strip() + " music"
+            
             time.sleep(1)
 
             # Get song based on mood phrase
-            song = get_song_for_mood(mood_phrase)
+            song = get_song_for_mood(search_term)
+
+            if not song:
+                song = get_song_for_mood(f"{ml_mood} mood music")
         
         st.success(f"Your sketch expresses a mood: **{mood_phrase}**")
         
@@ -180,6 +200,11 @@ if st.button("✨ Analyze Mood"):
                 st.image(song['image_url'], width=200)
             if song['preview_url']:
                 st.audio(song['preview_url'])
-            st.markdown(f"[Open in Spotify]({song['external_url']})")
+            st.markdown(f"""
+                        <iframe src="https://open.spotify.com/embed/track/{song['uri'].split(':')[-1]}" 
+                        width="100%" height="80" frameborder="0" 
+                        allowtransparency="true" allow="encrypted-media"></iframe>
+                        """, unsafe_allow_html=True)
+
         else:
             st.error("Couldn't find a song. Try a different sketch.")
