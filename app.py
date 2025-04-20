@@ -164,28 +164,24 @@ if st.button("✨ Analyze Mood"):
 
     else:    
         with st.spinner("Analyzing your sketch..."):
-            # Convert image
             img = Image.fromarray((canvas_result.image_data).astype("uint8"))
 
-            # Classify mood via ML
             ml_mood = classifier.classify_mood(canvas_result.image_data)
 
-            # Use Gemini for refined emotional text
-            mood_phrase = generate_mood_phrase(gemini, img, ml_mood)
+            display_phrase, spotify_query = generate_mood_phrase(gemini, img, ml_mood)
 
-            st.code(f"ML Mood: {ml_mood}\nGemini Phrase: {mood_phrase}", language='text')
+            st.code(f"ML Mood: {ml_mood}\nSpotify Search Query: {spotify_query}", language='text')
 
-            search_term = mood_phrase.split(",")[0].strip() + " music"
-            
             time.sleep(1)
-
             # Get song based on mood phrase
-            song = get_song_for_mood(search_term)
-
+            song = get_song_for_mood(spotify_query)
+            
             if not song:
                 song = get_song_for_mood(f"{ml_mood} mood music")
+
+
         
-        st.success(f"Your sketch expresses a mood: **{mood_phrase}**")
+        st.success(f"🎨 Your sketch expresses a **{display_phrase}** vibe.")
         
         if song:
             st.markdown(f"""
@@ -207,4 +203,4 @@ if st.button("✨ Analyze Mood"):
                         """, unsafe_allow_html=True)
 
         else:
-            st.error("Couldn't find a song. Try a different sketch.")
+            st.error("No good song match found. Try a different sketch!.")
