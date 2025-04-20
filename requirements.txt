@@ -1,0 +1,13 @@
+streamlit
+streamlit-drawable-canvas
+Pillow
+numpy
+spotipy
+scikit-learn
+xgboost
+joblib
+opencv-python-headless
+tensorflow
+colorthief
+requests
+google-genai
