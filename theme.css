@@ -1,0 +1,182 @@
+/* theme.css */
+
+/* Base styles and variables */
+:root {
+    --primary-color: #1DB954;
+    --primary-light: #1ed760;
+    --primary-dark: #1aa34a;
+    --secondary-color: #191414;
+    --accent-color: #535353;
+    --background-color: #f8f9fa;
+    --card-background: #ffffff;
+    --text-primary: #191414;
+    --text-secondary: #535353;
+    --border-radius: 12px;
+    --spacing-xs: 5px;
+    --spacing-sm: 10px;
+    --spacing-md: 15px;
+    --spacing-lg: 25px;
+    --shadow-sm: 0 2px 5px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 10px rgba(0,0,0,0.08);
+    --shadow-lg: 0 10px 20px rgba(0,0,0,0.1);
+    --transition-speed: 0.3s;
+  }
+  
+  /* Global styles */
+  .main {
+    background-color: var(--background-color);
+    font-family: 'Inter', sans-serif;
+    color: var(--text-primary);
+  }
+  
+  /* Typography */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    margin-bottom: var(--spacing-md);
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    letter-spacing: -0.5px;
+  }
+  
+  h2 {
+    font-size: 1.8rem;
+    letter-spacing: -0.3px;
+  }
+  
+  h3 {
+    font-size: 1.4rem;
+    letter-spacing: -0.2px;
+  }
+  
+  p {
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+  
+  /* Card components */
+  .card {
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-md);
+    margin-bottom: var(--spacing-lg);
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+  }
+  
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  /* Button styling */
+  .stButton > button {
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 30px;
+    padding: 12px 24px;
+    font-weight: 600;
+    border: none;
+    transition: background-color var(--transition-speed), transform var(--transition-speed);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 14px;
+  }
+  
+  .stButton > button:hover {
+    background-color: var(--primary-light);
+    transform: translateY(-2px);
+  }
+  
+  .stButton > button:active {
+    background-color: var(--primary-dark);
+    transform: translateY(0);
+  }
+  
+  /* Canvas styling */
+  .canvas-container {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    background-color: var(--card-background);
+    padding: var(--spacing-md);
+  }
+  
+  /* Slider styling */
+  .stSlider > div {
+    padding-top: var(--spacing-sm);
+    padding-bottom: var(--spacing-sm);
+  }
+  
+  /* Color picker styling */
+  .stColorPicker > div {
+    margin-bottom: var(--spacing-md);
+  }
+  
+  /* Results container */
+  .result-container {
+    background-color: var(--card-background);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    margin: var(--spacing-lg) 0;
+    transition: transform var(--transition-speed);
+  }
+  
+  .result-container:hover {
+    transform: translateY(-2px);
+  }
+  
+  /* Song card */
+  .song-card {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    transition: transform var(--transition-speed);
+  }
+  
+  .song-card:hover {
+    transform: scale(1.01);
+  }
+  
+  /* Header section */
+  .header {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .header h1 {
+    margin-bottom: var(--spacing-xs);
+  }
+  
+  .header p {
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  /* Footer */
+  .footer {
+    text-align: center;
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid rgba(0,0,0,0.05);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .card {
+      padding: var(--spacing-md);
+    }
+    
+    h1 {
+      font-size: 2rem;
+    }
+    
+    h2 {
+      font-size: 1.5rem;
+    }
+  }
+  

@@ -2,6 +2,7 @@ import streamlit as st
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import time
+import streamlit.components.v1 as components
 
 def get_spotify_client():
     try:
@@ -57,4 +58,9 @@ sp = get_spotify_client()
 search_term = "mellow acoustic"
 results = sp.search(q=search_term, type="track", limit=5)
 for idx, track in enumerate(results['tracks']['items']):
-    print(f"{idx+1}. {track['name']} by {track['artists'][0]['name']}")
+    track_id = track['id']
+    track_name = track['name']
+    artist_name = track['artists'][0]['name']
+    st.write(f"{idx+1}. {track_name} by {artist_name}")
+    embed_url = f"https://open.spotify.com/embed/track/{track_id}"
+    components.iframe(embed_url, height=80, width=300)
