@@ -266,7 +266,7 @@ if st.button("✨ Analyze Mood"):
             ml_mood = classifier.classify_mood(canvas_result.image_data)
             display_phrase, spotify_query, moodstat = generate_mood_phrase(gemini, img, ml_mood)
             
-            #st.code(f"ML Mood: {ml_mood}\nSpotify Search Query: {spotify_query}\nDisplay Phrase: {display_phrase}\nmoodstat: {moodstat}", language='text')
+            st.code(f"ML Mood: {ml_mood}\nSpotify Search Query: {spotify_query}\nDisplay Phrase: {display_phrase}\nmoodstat: {moodstat}", language='text')
 
             time.sleep(1)
             
