@@ -8,15 +8,17 @@ def init_gemini(api_key):
 
 def generate_mood_phrase(models, image: Image.Image, ml_mood: str):
     prompt = f"""
-    Given the mood "{ml_mood}" detected from a sketch, analyze the sketch and generate:
+    Given the mood "{ml_mood}" detected from a sketch, analyze the sketch, look for shapes and what they mean, look for text and generate:
     1. A poetic and emotional phrase to describe the mood (for user display).
     2. A simplified Spotify music search query that captures the same emotion but uses real-world language to return good music results (e.g., 'sad indie', 'calm lofi', 'chill pop', etc.).
+    3. Recheck the mood prediction and return 'yes' or 'no' if the mood prediction was right + correct mood. 
 
-    Ensure the search query is likely to return songs with over 50,000 streams (i.e., no obscure genre mashups). Keep it natural, 2-4 words, and not overly abstract.
+    Keep it natural, 4-6 words, and not overly abstract.
 
     Output in this exact format:
     DISPLAY_PHRASE: <display phrase>
     SPOTIFY_QUERY: <spotify search query>
+    moodstat: <was the mood prediction right? - yes or no + correct mood>
     """
 
     image_bytes = io.BytesIO()
@@ -33,6 +35,7 @@ def generate_mood_phrase(models, image: Image.Image, ml_mood: str):
 
     display_phrase = ""
     spotify_query = ""
+    moodstat = ""
 
     try:
         for line in response.text.strip().splitlines():
@@ -40,6 +43,8 @@ def generate_mood_phrase(models, image: Image.Image, ml_mood: str):
                 display_phrase = line.replace("DISPLAY_PHRASE:", "").strip()
             elif line.startswith("SPOTIFY_QUERY:"):
                 spotify_query = line.replace("SPOTIFY_QUERY:", "").strip()
+            elif line.startswith("moodstat:"):
+                moodstat = line.replace("moodstat:", "").strip()
     except Exception as e:
         print("Error parsing Gemini response:", e)
         print("Raw Gemini output:", response.text)
@@ -50,4 +55,4 @@ def generate_mood_phrase(models, image: Image.Image, ml_mood: str):
     if not spotify_query:
         spotify_query = f"{ml_mood} mood music"
 
-    return (display_phrase, spotify_query)
+    return (display_phrase, spotify_query, moodstat)
