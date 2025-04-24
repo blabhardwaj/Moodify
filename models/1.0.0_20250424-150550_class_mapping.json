@@ -1,0 +1,7 @@
+{
+    "angry": 0,
+    "calm": 1,
+    "excited": 2,
+    "happy": 3,
+    "sad": 4
+}

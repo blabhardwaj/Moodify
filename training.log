@@ -1,0 +1,327 @@
+2025-04-23 20:02:56,431 - INFO - Starting training pipeline
+2025-04-23 20:02:56,432 - INFO - Created output directory: models
+2025-04-23 20:02:56,433 - INFO - Loading data from mood_color_dataset_extended_v2.csv
+2025-04-23 20:02:56,467 - INFO - Dataset loaded with shape: (1500, 13)
+2025-04-23 20:02:56,480 - INFO - Classes: ['angry' 'calm' 'excited' 'happy' 'sad']
+2025-04-23 20:02:56,481 - INFO - Saved label encoder to models\encoder_model.pkl
+2025-04-23 20:02:56,489 - INFO - Train set: (1200, 12), Test set: (300, 12)
+2025-04-23 20:02:56,496 - INFO - Saved scaler to models\scaler_model.pkl
+2025-04-23 20:02:56,513 - INFO - Saved PCA model to models\pca_model.pkl
+2025-04-23 20:02:56,514 - INFO - PCA explained variance: [0.39394344 0.26353233]
+2025-04-23 20:02:56,515 - INFO - Total explained variance: 0.6575
+2025-04-23 20:02:56,515 - INFO - Training XGBoost with predefined parameters
+2025-04-23 20:02:57,175 - INFO - Saved XGBoost model to models\xgb_model.pkl
+2025-04-23 20:02:57,189 - INFO - Model accuracy: 0.8433
+2025-04-23 20:02:57,190 - INFO - Classification report:
+              precision    recall  f1-score   support
+
+       angry       0.89      0.85      0.87        60
+        calm       0.95      0.93      0.94        60
+     excited       0.69      0.60      0.64        60
+       happy       0.69      0.83      0.76        60
+         sad       1.00      1.00      1.00        60
+
+    accuracy                           0.84       300
+   macro avg       0.85      0.84      0.84       300
+weighted avg       0.85      0.84      0.84       300
+
+2025-04-23 20:02:58,878 - INFO - Saved confusion matrix to models\confusion_matrix.png
+2025-04-23 20:02:58,879 - INFO - Training pipeline completed successfully
+2025-04-23 20:21:03,739 - INFO - Starting training pipeline
+2025-04-23 20:21:03,740 - INFO - Loading data from mood_color_dataset_extended_v2.csv
+2025-04-23 20:21:03,749 - INFO - Dataset loaded with shape: (1500, 13)
+2025-04-23 20:21:03,753 - INFO - Classes: ['angry' 'calm' 'excited' 'happy' 'sad']
+2025-04-23 20:21:03,755 - INFO - Saved label encoder to models\encoder_model.pkl
+2025-04-23 20:21:03,757 - INFO - Train set: (1200, 12), Test set: (300, 12)
+2025-04-23 20:21:03,758 - ERROR - Training pipeline failed: scale_and_reduce_features() missing 1 required positional argument: 'y_train'
+2025-04-23 20:21:03,759 - ERROR - Traceback (most recent call last):
+  File "d:\ML_Project\Moodify\train_pipeline.py", line 260, in train_and_evaluate
+    X_train_reduced, X_test_reduced, pca, scaler = scale_and_reduce_features(X_train, X_test)
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: scale_and_reduce_features() missing 1 required positional argument: 'y_train'
+
+2025-04-23 20:22:36,523 - INFO - Starting training pipeline
+2025-04-23 20:22:36,524 - INFO - Loading data from mood_color_dataset_extended_v2.csv
+2025-04-23 20:22:36,530 - INFO - Dataset loaded with shape: (1500, 13)
+2025-04-23 20:22:36,533 - INFO - Classes: ['angry' 'calm' 'excited' 'happy' 'sad']
+2025-04-23 20:22:36,534 - INFO - Saved label encoder to models\encoder_model.pkl
+2025-04-23 20:22:36,537 - INFO - Train set: (1200, 12), Test set: (300, 12)
+2025-04-23 20:22:36,540 - INFO - Saved scaler to models\scaler_model.pkl
+2025-04-23 20:22:36,542 - INFO - Saved PCA model to models\pca_model.pkl
+2025-04-23 20:22:36,543 - INFO - PCA explained variance: [0.39394344 0.26353233]
+2025-04-23 20:22:36,543 - INFO - Total explained variance: 0.6575
+2025-04-23 20:22:37,030 - INFO - Saved PCA visualization to models\pca_visualization.png
+2025-04-23 20:22:37,030 - INFO - Performing grid search for XGBoost parameters
+2025-04-23 20:22:37,030 - INFO - Starting grid search - this may take some time...
+2025-04-23 20:28:37,081 - INFO - Best parameters from grid search: {'colsample_bytree': 1.0, 'gamma': 0, 'learning_rate': 0.1, 'max_depth': 7, 'n_estimators': 100, 'subsample': 1.0}
+2025-04-23 20:28:37,125 - INFO - Saved grid search results to models\grid_search_results.csv
+2025-04-23 20:28:37,139 - INFO - Saved XGBoost model to models\xgb_model.pkl
+2025-04-23 20:28:37,149 - INFO - Model accuracy: 0.8467
+2025-04-23 20:28:37,149 - INFO - Classification report:
+              precision    recall  f1-score   support
+
+       angry       0.91      0.85      0.88        60
+        calm       0.95      0.95      0.95        60
+     excited       0.68      0.63      0.66        60
+       happy       0.71      0.80      0.75        60
+         sad       1.00      1.00      1.00        60
+
+    accuracy                           0.85       300
+   macro avg       0.85      0.85      0.85       300
+weighted avg       0.85      0.85      0.85       300
+
+2025-04-23 20:28:37,576 - INFO - Saved confusion matrix to models\confusion_matrix.png
+2025-04-23 20:28:37,576 - INFO - Training pipeline completed successfully in 0h 6m 1s
+2025-04-24 02:10:27,850 - INFO - Starting training pipeline version 1.0.0
+2025-04-24 02:10:27,851 - INFO - Loading data from mood_color_dataset_extended_v2.csv
+2025-04-24 02:10:27,867 - INFO - Dataset loaded with shape: (1500, 13)
+2025-04-24 02:10:27,874 - INFO - Computing histogram features from raw image data...
+2025-04-24 02:10:28,808 - INFO - Total features: 36 (12 basic + 24 histogram)
+2025-04-24 02:10:28,819 - INFO - Saved label encoder to models\1.0.0_20250424-021028_encoder_model.pkl
+2025-04-24 02:10:28,820 - INFO - Saved class-to-index mapping to models\1.0.0_20250424-021028_class_mapping.json
+2025-04-24 02:10:28,824 - INFO - Train set: (1200, 36), Test set: (300, 36)
+2025-04-24 02:10:28,829 - INFO - Saved scaler to models\1.0.0_20250424-021028_scaler_model.pkl
+2025-04-24 02:10:28,840 - INFO - Auto-determined 17 PCA components to retain 95.0% variance
+2025-04-24 02:10:28,845 - INFO - Saved PCA model to models\1.0.0_20250424-021028_pca_model.pkl
+2025-04-24 02:10:28,845 - INFO - PCA components: 17
+2025-04-24 02:10:28,846 - INFO - PCA explained variance: [0.20080638 0.1401444  0.08689178 0.0700034  0.06306559 0.05916773
+ 0.04857448 0.0447439  0.04125442 0.0365032  0.03330257 0.02688224
+ 0.02459582 0.02376702 0.02058189 0.01569333 0.01447915]
+2025-04-24 02:10:28,846 - INFO - Total explained variance: 0.9505
+2025-04-24 02:10:29,277 - INFO - Saved PCA visualization to models\1.0.0_20250424-021028_pca_visualization.png
+2025-04-24 02:10:29,598 - INFO - Saved PCA components visualization to models\1.0.0_20250424-021028_pca_components.png
+2025-04-24 02:10:29,599 - INFO - Performing grid search for XGBoost parameters
+2025-04-24 02:10:29,599 - INFO - Starting grid search - this may take some time...
+2025-04-24 02:27:40,314 - INFO - Best parameters from grid search: {'colsample_bytree': 0.8, 'gamma': 0, 'learning_rate': 0.01, 'max_depth': 5, 'n_estimators': 100, 'subsample': 0.9}
+2025-04-24 02:27:40,396 - INFO - Saved grid search results to models\1.0.0_20250424-021029_grid_search_results.csv
+2025-04-24 02:27:40,413 - INFO - Saved XGBoost model to models\1.0.0_20250424-021029_xgb_model.pkl
+2025-04-24 02:27:40,446 - INFO - Model accuracy: 0.8633
+2025-04-24 02:27:40,446 - INFO - Classification report:
+              precision    recall  f1-score   support
+
+       angry       0.90      0.93      0.92        60
+        calm       1.00      0.93      0.97        60
+     excited       0.78      0.53      0.63        60
+       happy       0.68      0.92      0.78        60
+         sad       1.00      1.00      1.00        60
+
+    accuracy                           0.86       300
+   macro avg       0.87      0.86      0.86       300
+weighted avg       0.87      0.86      0.86       300
+
+2025-04-24 02:27:40,447 - ERROR - Error in model training: 'micro avg'
+2025-04-24 02:27:40,452 - ERROR - Traceback (most recent call last):
+  File "d:\ML_Project\Moodify\train_pipeline.py", line 369, in train_model
+    micro_f1 = report['micro avg']['f1-score']
+               ~~~~~~^^^^^^^^^^^^^
+KeyError: 'micro avg'
+
+2025-04-24 02:27:40,453 - ERROR - Training pipeline failed: 'micro avg'
+2025-04-24 02:27:40,455 - ERROR - Traceback (most recent call last):
+  File "d:\ML_Project\Moodify\train_pipeline.py", line 495, in train_and_evaluate
+    xgb, accuracy, report, macro_f1, micro_f1, weighted_f1 = train_model(
+                                                             ^^^^^^^^^^^^
+  File "d:\ML_Project\Moodify\train_pipeline.py", line 369, in train_model
+    micro_f1 = report['micro avg']['f1-score']
+               ~~~~~~^^^^^^^^^^^^^
+KeyError: 'micro avg'
+
+2025-04-24 02:40:27,338 - INFO - Starting training pipeline version 1.0.0
+2025-04-24 02:40:27,338 - INFO - XGBoost build information:
+2025-04-24 02:40:27,338 - INFO - BUILTIN_PREFETCH_PRESENT: False
+2025-04-24 02:40:27,338 - INFO - CUDA_VERSION: [12, 5]
+2025-04-24 02:40:27,338 - INFO - DEBUG: False
+2025-04-24 02:40:27,339 - INFO - MM_PREFETCH_PRESENT: True
+2025-04-24 02:40:27,339 - INFO - THRUST_VERSION: [2, 6, 1]
+2025-04-24 02:40:27,339 - INFO - USE_CUDA: True
+2025-04-24 02:40:27,339 - INFO - USE_DLOPEN_NCCL: False
+2025-04-24 02:40:27,339 - INFO - USE_FEDERATED: False
+2025-04-24 02:40:27,339 - INFO - USE_NCCL: False
+2025-04-24 02:40:27,339 - INFO - USE_OPENMP: True
+2025-04-24 02:40:27,340 - INFO - USE_RMM: False
+2025-04-24 02:40:27,340 - INFO - libxgboost: C:\Users\blabh\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\lib\xgboost.dll
+2025-04-24 02:40:27,340 - INFO - XGBoost has CUDA support enabled
+2025-04-24 02:40:27,340 - INFO - Using GPU acceleration for training
+2025-04-24 02:40:27,340 - INFO - Loading data from mood_color_dataset_extended_v2.csv
+2025-04-24 02:40:27,349 - INFO - Dataset loaded with shape: (1500, 13)
+2025-04-24 02:40:27,351 - INFO - Computing histogram features from raw image data...
+2025-04-24 02:40:28,357 - INFO - Total features: 36 (12 basic + 24 histogram)
+2025-04-24 02:40:28,366 - INFO - Saved label encoder to models\1.0.0_20250424-024028_encoder_model.pkl
+2025-04-24 02:40:28,367 - INFO - Saved class-to-index mapping to models\1.0.0_20250424-024028_class_mapping.json
+2025-04-24 02:40:28,372 - INFO - Train set: (1200, 36), Test set: (300, 36)
+2025-04-24 02:40:28,376 - INFO - Saved scaler to models\1.0.0_20250424-024028_scaler_model.pkl
+2025-04-24 02:40:28,388 - INFO - Auto-determined 17 PCA components to retain 95.0% variance
+2025-04-24 02:40:28,391 - INFO - Saved PCA model to models\1.0.0_20250424-024028_pca_model.pkl
+2025-04-24 02:40:28,391 - INFO - PCA components: 17
+2025-04-24 02:40:28,391 - INFO - PCA explained variance: [0.2008028  0.14012452 0.08693555 0.0700185  0.06308884 0.05921238
+ 0.04854117 0.04488344 0.04123069 0.03653029 0.03334042 0.02681134
+ 0.02465766 0.02377816 0.02059204 0.01561421 0.01443717]
+2025-04-24 02:40:28,392 - INFO - Total explained variance: 0.9506
+2025-04-24 02:40:28,774 - INFO - Saved PCA visualization to models\1.0.0_20250424-024028_pca_visualization.png
+2025-04-24 02:40:29,100 - INFO - Saved PCA components visualization to models\1.0.0_20250424-024028_pca_components.png
+2025-04-24 02:40:29,100 - INFO - Performing grid search for XGBoost parameters
+2025-04-24 02:40:29,100 - INFO - Starting grid search - this may take some time...
+2025-04-24 02:45:40,030 - INFO - Starting training pipeline version 1.0.0
+2025-04-24 02:45:40,030 - INFO - XGBoost build information:
+2025-04-24 02:45:40,030 - INFO - BUILTIN_PREFETCH_PRESENT: False
+2025-04-24 02:45:40,031 - INFO - CUDA_VERSION: [12, 5]
+2025-04-24 02:45:40,031 - INFO - DEBUG: False
+2025-04-24 02:45:40,031 - INFO - MM_PREFETCH_PRESENT: True
+2025-04-24 02:45:40,031 - INFO - THRUST_VERSION: [2, 6, 1]
+2025-04-24 02:45:40,031 - INFO - USE_CUDA: True
+2025-04-24 02:45:40,031 - INFO - USE_DLOPEN_NCCL: False
+2025-04-24 02:45:40,032 - INFO - USE_FEDERATED: False
+2025-04-24 02:45:40,032 - INFO - USE_NCCL: False
+2025-04-24 02:45:40,032 - INFO - USE_OPENMP: True
+2025-04-24 02:45:40,032 - INFO - USE_RMM: False
+2025-04-24 02:45:40,032 - INFO - libxgboost: C:\Users\blabh\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\lib\xgboost.dll
+2025-04-24 02:45:40,032 - INFO - XGBoost has CUDA support enabled
+2025-04-24 02:45:40,033 - INFO - Using GPU acceleration for training
+2025-04-24 02:45:40,033 - INFO - Loading data from mood_color_dataset_extended_v2.csv
+2025-04-24 02:45:40,039 - INFO - Dataset loaded with shape: (1500, 13)
+2025-04-24 02:45:40,040 - INFO - Computing histogram features from raw image data...
+2025-04-24 02:45:40,983 - INFO - Total features: 36 (12 basic + 24 histogram)
+2025-04-24 02:45:40,987 - INFO - Saved label encoder to models\1.0.0_20250424-024540_encoder_model.pkl
+2025-04-24 02:45:40,988 - INFO - Saved class-to-index mapping to models\1.0.0_20250424-024540_class_mapping.json
+2025-04-24 02:45:40,990 - INFO - Train set: (1200, 36), Test set: (300, 36)
+2025-04-24 02:45:40,992 - INFO - Saved scaler to models\1.0.0_20250424-024540_scaler_model.pkl
+2025-04-24 02:45:40,994 - INFO - Auto-determined 17 PCA components to retain 95.0% variance
+2025-04-24 02:45:40,998 - INFO - Saved PCA model to models\1.0.0_20250424-024540_pca_model.pkl
+2025-04-24 02:45:40,998 - INFO - PCA components: 17
+2025-04-24 02:45:40,999 - INFO - PCA explained variance: [0.20080145 0.14012783 0.08694083 0.07003506 0.06304309 0.0591984
+ 0.04858118 0.04476726 0.04128712 0.03648979 0.03338258 0.02681339
+ 0.02465292 0.02372949 0.02059299 0.01567841 0.01439311]
+2025-04-24 02:45:40,999 - INFO - Total explained variance: 0.9505
+2025-04-24 02:45:41,373 - INFO - Saved PCA visualization to models\1.0.0_20250424-024540_pca_visualization.png
+2025-04-24 02:45:41,729 - INFO - Saved PCA components visualization to models\1.0.0_20250424-024540_pca_components.png
+2025-04-24 02:45:41,729 - INFO - Performing grid search for XGBoost parameters
+2025-04-24 02:45:41,730 - INFO - Starting grid search - this may take some time...
+2025-04-24 15:05:49,558 - INFO - CuPy is available for GPU acceleration
+2025-04-24 15:05:49,560 - INFO - Starting training pipeline version 1.0.0
+2025-04-24 15:05:49,560 - INFO - XGBoost build information:
+2025-04-24 15:05:49,560 - INFO - BUILTIN_PREFETCH_PRESENT: False
+2025-04-24 15:05:49,561 - INFO - CUDA_VERSION: [12, 5]
+2025-04-24 15:05:49,561 - INFO - DEBUG: False
+2025-04-24 15:05:49,561 - INFO - MM_PREFETCH_PRESENT: True
+2025-04-24 15:05:49,561 - INFO - THRUST_VERSION: [2, 6, 1]
+2025-04-24 15:05:49,561 - INFO - USE_CUDA: True
+2025-04-24 15:05:49,561 - INFO - USE_DLOPEN_NCCL: False
+2025-04-24 15:05:49,561 - INFO - USE_FEDERATED: False
+2025-04-24 15:05:49,562 - INFO - USE_NCCL: False
+2025-04-24 15:05:49,562 - INFO - USE_OPENMP: True
+2025-04-24 15:05:49,562 - INFO - USE_RMM: False
+2025-04-24 15:05:49,562 - INFO - libxgboost: C:\Users\blabh\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\lib\xgboost.dll
+2025-04-24 15:05:49,563 - INFO - XGBoost has CUDA support enabled
+2025-04-24 15:05:49,563 - INFO - Using GPU acceleration for training
+2025-04-24 15:05:49,563 - INFO - Loading data from mood_color_dataset_extended_v2.csv
+2025-04-24 15:05:49,595 - INFO - Dataset loaded with shape: (1500, 13)
+2025-04-24 15:05:49,599 - INFO - Computing histogram features from raw image data...
+2025-04-24 15:05:50,591 - INFO - Total features: 36 (12 basic + 24 histogram)
+2025-04-24 15:05:50,603 - INFO - Saved label encoder to models\1.0.0_20250424-150550_encoder_model.pkl
+2025-04-24 15:05:50,604 - INFO - Saved class-to-index mapping to models\1.0.0_20250424-150550_class_mapping.json
+2025-04-24 15:05:50,608 - INFO - Train set: (1200, 36), Test set: (300, 36)
+2025-04-24 15:05:50,611 - INFO - Saved scaler to models\1.0.0_20250424-150550_scaler_model.pkl
+2025-04-24 15:05:50,622 - INFO - Auto-determined 17 PCA components to retain 95.0% variance
+2025-04-24 15:05:50,625 - INFO - Saved PCA model to models\1.0.0_20250424-150550_pca_model.pkl
+2025-04-24 15:05:50,625 - INFO - PCA components: 17
+2025-04-24 15:05:50,626 - INFO - PCA explained variance: [0.20078362 0.14015703 0.08687601 0.07000913 0.06308627 0.05919171
+ 0.04860448 0.04474918 0.04126675 0.03656716 0.03330109 0.02679909
+ 0.02472461 0.02370074 0.02053127 0.01573675 0.01446359]
+2025-04-24 15:05:50,626 - INFO - Total explained variance: 0.9505
+2025-04-24 15:05:51,968 - INFO - Saved PCA visualization to models\1.0.0_20250424-150550_pca_visualization.png
+2025-04-24 15:05:52,380 - INFO - Saved PCA components visualization to models\1.0.0_20250424-150550_pca_components.png
+2025-04-24 15:05:52,381 - INFO - Performing grid search for XGBoost parameters
+2025-04-24 15:08:05,919 - INFO - CuPy is available for GPU acceleration
+2025-04-24 15:08:05,920 - INFO - Starting training pipeline version 1.0.0
+2025-04-24 15:08:05,920 - INFO - XGBoost build information:
+2025-04-24 15:08:05,920 - INFO - BUILTIN_PREFETCH_PRESENT: False
+2025-04-24 15:08:05,920 - INFO - CUDA_VERSION: [12, 5]
+2025-04-24 15:08:05,921 - INFO - DEBUG: False
+2025-04-24 15:08:05,921 - INFO - MM_PREFETCH_PRESENT: True
+2025-04-24 15:08:05,921 - INFO - THRUST_VERSION: [2, 6, 1]
+2025-04-24 15:08:05,921 - INFO - USE_CUDA: True
+2025-04-24 15:08:05,921 - INFO - USE_DLOPEN_NCCL: False
+2025-04-24 15:08:05,921 - INFO - USE_FEDERATED: False
+2025-04-24 15:08:05,921 - INFO - USE_NCCL: False
+2025-04-24 15:08:05,922 - INFO - USE_OPENMP: True
+2025-04-24 15:08:05,922 - INFO - USE_RMM: False
+2025-04-24 15:08:05,922 - INFO - libxgboost: C:\Users\blabh\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\lib\xgboost.dll
+2025-04-24 15:08:05,922 - INFO - XGBoost has CUDA support enabled
+2025-04-24 15:08:05,922 - INFO - Using GPU acceleration for training
+2025-04-24 15:08:05,922 - INFO - Loading data from mood_color_dataset_extended_v2.csv
+2025-04-24 15:08:05,928 - INFO - Dataset loaded with shape: (1500, 13)
+2025-04-24 15:08:05,929 - INFO - Computing histogram features from raw image data...
+2025-04-24 15:08:06,935 - INFO - Total features: 36 (12 basic + 24 histogram)
+2025-04-24 15:08:06,938 - INFO - Saved label encoder to models\1.0.0_20250424-150806_encoder_model.pkl
+2025-04-24 15:08:06,938 - INFO - Saved class-to-index mapping to models\1.0.0_20250424-150806_class_mapping.json
+2025-04-24 15:08:06,940 - INFO - Train set: (1200, 36), Test set: (300, 36)
+2025-04-24 15:08:06,943 - INFO - Saved scaler to models\1.0.0_20250424-150806_scaler_model.pkl
+2025-04-24 15:08:06,946 - INFO - Auto-determined 17 PCA components to retain 95.0% variance
+2025-04-24 15:08:06,951 - INFO - Saved PCA model to models\1.0.0_20250424-150806_pca_model.pkl
+2025-04-24 15:08:06,951 - INFO - PCA components: 17
+2025-04-24 15:08:06,951 - INFO - PCA explained variance: [0.20075899 0.14012403 0.086926   0.0699883  0.06308754 0.05916034
+ 0.04859602 0.04476347 0.04126687 0.03653864 0.03335401 0.02682699
+ 0.024661   0.0236735  0.02059034 0.01569574 0.01444948]
+2025-04-24 15:08:06,952 - INFO - Total explained variance: 0.9505
+2025-04-24 15:08:07,360 - INFO - Saved PCA visualization to models\1.0.0_20250424-150806_pca_visualization.png
+2025-04-24 15:08:07,704 - INFO - Saved PCA components visualization to models\1.0.0_20250424-150806_pca_components.png
+2025-04-24 15:08:07,705 - INFO - Performing grid search for XGBoost parameters
+2025-04-24 15:11:20,593 - INFO - CuPy is available for GPU acceleration
+2025-04-24 15:11:20,593 - INFO - Starting training pipeline version 1.0.0
+2025-04-24 15:11:20,594 - INFO - XGBoost build information:
+2025-04-24 15:11:20,594 - INFO - BUILTIN_PREFETCH_PRESENT: False
+2025-04-24 15:11:20,594 - INFO - CUDA_VERSION: [12, 5]
+2025-04-24 15:11:20,594 - INFO - DEBUG: False
+2025-04-24 15:11:20,594 - INFO - MM_PREFETCH_PRESENT: True
+2025-04-24 15:11:20,595 - INFO - THRUST_VERSION: [2, 6, 1]
+2025-04-24 15:11:20,595 - INFO - USE_CUDA: True
+2025-04-24 15:11:20,595 - INFO - USE_DLOPEN_NCCL: False
+2025-04-24 15:11:20,595 - INFO - USE_FEDERATED: False
+2025-04-24 15:11:20,595 - INFO - USE_NCCL: False
+2025-04-24 15:11:20,596 - INFO - USE_OPENMP: True
+2025-04-24 15:11:20,596 - INFO - USE_RMM: False
+2025-04-24 15:11:20,596 - INFO - libxgboost: C:\Users\blabh\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\lib\xgboost.dll
+2025-04-24 15:11:20,596 - INFO - XGBoost has CUDA support enabled
+2025-04-24 15:11:20,596 - INFO - Using GPU acceleration for training
+2025-04-24 15:11:20,596 - INFO - Loading data from mood_color_dataset_extended_v2.csv
+2025-04-24 15:11:20,603 - INFO - Dataset loaded with shape: (1500, 13)
+2025-04-24 15:11:20,604 - INFO - Computing histogram features from raw image data...
+2025-04-24 15:11:21,576 - INFO - Total features: 36 (12 basic + 24 histogram)
+2025-04-24 15:11:21,580 - INFO - Saved label encoder to models\1.0.0_20250424-151121_encoder_model.pkl
+2025-04-24 15:11:21,583 - INFO - Saved class-to-index mapping to models\1.0.0_20250424-151121_class_mapping.json
+2025-04-24 15:11:21,585 - INFO - Train set: (1200, 36), Test set: (300, 36)
+2025-04-24 15:11:21,589 - INFO - Saved scaler to models\1.0.0_20250424-151121_scaler_model.pkl
+2025-04-24 15:11:21,591 - INFO - Auto-determined 17 PCA components to retain 95.0% variance
+2025-04-24 15:11:21,595 - INFO - Saved PCA model to models\1.0.0_20250424-151121_pca_model.pkl
+2025-04-24 15:11:21,595 - INFO - PCA components: 17
+2025-04-24 15:11:21,595 - INFO - PCA explained variance: [0.20086331 0.1401541  0.08693989 0.06999602 0.06310213 0.05918773
+ 0.04860767 0.04475327 0.04129439 0.03657074 0.03335953 0.02679459
+ 0.02464156 0.02370764 0.02056224 0.01561168 0.01445545]
+2025-04-24 15:11:21,596 - INFO - Total explained variance: 0.9506
+2025-04-24 15:11:21,980 - INFO - Saved PCA visualization to models\1.0.0_20250424-151121_pca_visualization.png
+2025-04-24 15:11:22,285 - INFO - Saved PCA components visualization to models\1.0.0_20250424-151121_pca_components.png
+2025-04-24 15:11:22,285 - INFO - Performing grid search for XGBoost parameters
+2025-04-24 15:24:11,661 - INFO - Best parameters from grid search: {'colsample_bytree': 0.9, 'gamma': 0, 'learning_rate': 0.2, 'max_depth': 5, 'n_estimators': 300, 'subsample': 1.0}
+2025-04-24 15:24:11,694 - INFO - Saved XGBoost model to models\1.0.0_20250424-151122_xgb_model.pkl
+2025-04-24 15:24:11,709 - INFO - Model accuracy: 0.8500
+2025-04-24 15:24:11,709 - INFO - Classification report:
+              precision    recall  f1-score   support
+
+       angry       0.90      0.87      0.88        60
+        calm       0.95      0.97      0.96        60
+     excited       0.67      0.67      0.67        60
+       happy       0.74      0.75      0.74        60
+         sad       1.00      1.00      1.00        60
+
+    accuracy                           0.85       300
+   macro avg       0.85      0.85      0.85       300
+weighted avg       0.85      0.85      0.85       300
+
+2025-04-24 15:24:11,709 - INFO - Macro-average F1 score: 0.8501
+2025-04-24 15:24:11,710 - INFO - Micro-average F1 score: 0.8500
+2025-04-24 15:24:11,710 - INFO - Weighted-average F1 score: 0.8501
+2025-04-24 15:24:11,711 - INFO - Saved classification report to models\1.0.0_20250424-151122_classification_report.json
+2025-04-24 15:24:11,975 - INFO - Saved confusion matrix to models\1.0.0_20250424-151122_confusion_matrix.png
+2025-04-24 15:24:12,183 - INFO - Saved feature importance plot to models\1.0.0_20250424-151122_feature_importance.png
+2025-04-24 15:24:12,184 - INFO - Saved model metadata to models\1.0.0_20250424-151122_metadata.json
+2025-04-24 15:24:12,184 - INFO - Training pipeline v1.0.0 completed successfully in 0h 12m 51s
