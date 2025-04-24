@@ -1,4 +1,5 @@
 streamlit
+streamlit-extras
 streamlit-drawable-canvas
 Pillow
 numpy
@@ -11,3 +12,4 @@ tensorflow
 colorthief
 requests
 google-genai
+seaborn
